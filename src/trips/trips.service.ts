@@ -14,7 +14,7 @@ export class TripsService {
   createTrip(createTripDto: CreateTripDto): Trip {
     const { name, description, destination, price, places } = createTripDto;
 
-    const trip = {
+    const trip: Trip = {
       id: uuid(),
       name,
       description,
