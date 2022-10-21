@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { Trip } from './trips.model';
 
 @Injectable()
 export class TripsService {
-  private trips = [];
+  private trips: Trip[] = [];
 
-  getAllTrips() {
+  getAllTrips(): Trip[] {
     return this.trips;
   }
 }
