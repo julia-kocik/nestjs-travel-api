@@ -4,11 +4,11 @@ export interface Trip {
   description: string;
   destination: string;
   price: string;
-  availability: number;
+  places: number;
   status: TripStatus;
 }
 
-enum TripStatus {
+export enum TripStatus {
   AVAILABLE = 'AVAILABLE',
   SOLD = 'SOLD',
 }

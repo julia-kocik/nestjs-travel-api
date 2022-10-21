@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { CreateTripDto } from './dto/create-trip.dto';
 import { Trip } from './trips.model';
 import { TripsService } from './trips.service';
 
@@ -9,5 +10,10 @@ export class TripsController {
   @Get()
   getAllTrips(): Trip[] {
     return this.tripsService.getAllTrips();
+  }
+
+  @Post()
+  createTrip(@Body() createTripDto: CreateTripDto): Trip {
+    return this.tripsService.createTrip(createTripDto);
   }
 }
