@@ -11,6 +11,10 @@ export class TripsService {
     return this.trips;
   }
 
+  getTripById(id: string): Trip {
+    return this.trips.find((item) => item.id === id);
+  }
+
   createTrip(createTripDto: CreateTripDto): Trip {
     const { name, description, destination, price, places } = createTripDto;
 
