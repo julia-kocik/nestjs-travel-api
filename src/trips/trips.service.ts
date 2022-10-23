@@ -15,6 +15,11 @@ export class TripsService {
     return this.trips.find((item) => item.id === id);
   }
 
+  deleteById(id: string): Trip[] {
+    this.trips = this.trips.filter((item) => item.id !== id);
+    return this.trips;
+  }
+
   createTrip(createTripDto: CreateTripDto): Trip {
     const { name, description, destination, price, places } = createTripDto;
 

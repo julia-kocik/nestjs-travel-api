@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { Trip } from './trips.model';
 import { TripsService } from './trips.service';
@@ -15,6 +15,11 @@ export class TripsController {
   @Get('/:id')
   getTripById(@Param('id') id: string): Trip {
     return this.tripsService.getTripById(id);
+  }
+
+  @Delete('/:id')
+  deleteById(@Param('id') id: string): Trip[] {
+    return this.tripsService.deleteById(id);
   }
 
   @Post()
