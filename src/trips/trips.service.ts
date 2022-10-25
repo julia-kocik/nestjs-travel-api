@@ -36,4 +36,10 @@ export class TripsService {
     this.trips.push(trip);
     return trip;
   }
+
+  updateTrip(id: string, status: TripStatus): Trip {
+    const trip = this.getTripById(id);
+    trip.status = status;
+    return trip;
+  }
 }
