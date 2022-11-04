@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { Trip, TripStatus } from './trips.model';
 import { v4 as uuid } from 'uuid';
@@ -12,11 +12,17 @@ export class TripsService {
   }
 
   getTripById(id: string): Trip {
-    return this.trips.find((item) => item.id === id);
+    const found = this.trips.find((item) => item.id === id);
+    if (!found) {
+      throw new NotFoundException(`Trip with id: ${id} not found`);
+    }
+
+    return found;
   }
 
   deleteById(id: string): Trip[] {
-    this.trips = this.trips.filter((item) => item.id !== id);
+    const trip = this.getTripById(id);
+    this.trips = this.trips.filter((item) => item.id !== trip.id);
     return this.trips;
   }
 

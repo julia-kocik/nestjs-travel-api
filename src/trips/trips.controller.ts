@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateTripDto } from './dto/create-trip.dto';
+import { UpdateTripDto } from './dto/update-task-status.dto';
 import { Trip, TripStatus } from './trips.model';
 import { TripsService } from './trips.service';
 
@@ -38,8 +39,9 @@ export class TripsController {
   @Patch('/:id/status')
   updateTrip(
     @Param('id') id: string,
-    @Body('status') status: TripStatus,
+    @Body() updateTripDto: UpdateTripDto,
   ): Trip {
+    const { status } = updateTripDto;
     return this.tripsService.updateTrip(id, status);
   }
 }
