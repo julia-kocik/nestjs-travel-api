@@ -9,9 +9,9 @@ import { TripRepository } from './trip.repository';
 export class TripsService {
   constructor(private readonly tripRepository: TripRepository) {}
 
-  // getAllTrips(): Trip[] {
-  //   return this.trips;
-  // }
+  async getAllTrips(): Promise<Trip[]> {
+    return await this.tripRepository.find();
+  }
 
   async getTripById(id: string): Promise<Trip> {
     const found = await this.tripRepository.findOne({
@@ -36,9 +36,10 @@ export class TripsService {
     return this.tripRepository.createTrip(createTripDto);
   }
 
-  // updateTrip(id: string, status: TripStatus): Trip {
-  //   const trip = this.getTripById(id);
-  //   trip.status = status;
-  //   return trip;
-  // }
+  async updateTrip(id: string, status: TripStatus): Promise<Trip> {
+    const trip = await this.getTripById(id);
+    trip.status = status;
+    await this.tripRepository.save(trip);
+    return trip;
+  }
 }

@@ -17,10 +17,10 @@ import { TripsService } from './trips.service';
 export class TripsController {
   constructor(private tripsService: TripsService) {}
 
-  // @Get()
-  // getAllTrips(): Trip[] {
-  //   return this.tripsService.getAllTrips();
-  // }
+  @Get()
+  getAllTrips(): Promise<Trip[]> {
+    return this.tripsService.getAllTrips();
+  }
 
   @Get('/:id')
   getTripById(@Param('id') id: string): Promise<Trip> {
@@ -37,12 +37,12 @@ export class TripsController {
     return this.tripsService.createTrip(createTripDto);
   }
 
-  // @Patch('/:id/status')
-  // updateTrip(
-  //   @Param('id') id: string,
-  //   @Body() updateTripDto: UpdateTripDto,
-  // ): Trip {
-  //   const { status } = updateTripDto;
-  //   return this.tripsService.updateTrip(id, status);
-  // }
+  @Patch('/:id/status')
+  updateTrip(
+    @Param('id') id: string,
+    @Body() updateTripDto: UpdateTripDto,
+  ): Promise<Trip> {
+    const { status } = updateTripDto;
+    return this.tripsService.updateTrip(id, status);
+  }
 }
