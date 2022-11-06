@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { TripStatus } from './trips.model';
+import { TripStatus } from './trip-status.enum';
 
 @Entity()
 export class Trip {
@@ -10,7 +10,7 @@ export class Trip {
   name: string;
 
   @Column()
-  desctiption: string;
+  description: string;
 
   @Column()
   destination: string;

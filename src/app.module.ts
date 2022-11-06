@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Trip } from './trips/trip.entity';
 import { TripsModule } from './trips/trips.module';
 
 @Module({
@@ -12,6 +13,7 @@ import { TripsModule } from './trips/trips.module';
       username: 'postgres',
       password: 'postgres',
       database: 'travel-nest',
+      entities: [Trip],
       autoLoadEntities: true,
       synchronize: true,
     }),
