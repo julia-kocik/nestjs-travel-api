@@ -3,7 +3,7 @@ export interface Trip {
   name: string;
   description: string;
   destination: string;
-  price: string;
+  price: number;
   places: number;
   status: TripStatus;
 }

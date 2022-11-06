@@ -11,7 +11,7 @@ export class CreateTripDto {
   destination: string;
 
   @IsNotEmpty()
-  price: string;
+  price: number;
 
   @IsNotEmpty()
   places: number;
