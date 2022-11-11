@@ -1,4 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  ConflictException,
+  Controller,
+  InternalServerErrorException,
+  Post,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
@@ -10,6 +16,14 @@ export class AuthController {
   async createUser(
     @Body() authCredentialsDto: AuthCredentialsDto,
   ): Promise<void> {
-    this.authService.signup(authCredentialsDto);
+    try {
+      await this.authService.signup(authCredentialsDto);
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException('Username already exists');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 }
