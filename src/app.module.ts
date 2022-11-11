@@ -3,10 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Trip } from './trips/trip.entity';
 import { TripsModule } from './trips/trips.module';
 import { AuthModule } from './auth/auth.module';
+import { User } from './auth/user.entity';
 
 @Module({
   imports: [
     TripsModule,
+    AuthModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -14,11 +16,10 @@ import { AuthModule } from './auth/auth.module';
       username: 'postgres',
       password: 'postgres',
       database: 'travel-nest',
-      entities: [Trip],
+      entities: [Trip, User],
       autoLoadEntities: true,
       synchronize: true,
     }),
-    AuthModule,
   ],
 })
 export class AppModule {}
