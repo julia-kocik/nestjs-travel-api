@@ -17,7 +17,7 @@ export class AuthController {
     @Body() authCredentialsDto: AuthCredentialsDto,
   ): Promise<void> {
     try {
-      await this.authService.signup(authCredentialsDto);
+      await this.authService.signUp(authCredentialsDto);
     } catch (error) {
       if (error.code === '23505') {
         throw new ConflictException('Username already exists');
@@ -25,5 +25,12 @@ export class AuthController {
         throw new InternalServerErrorException();
       }
     }
+  }
+
+  @Post('/signin')
+  async signIn(
+    @Body() authCredentialsDto: AuthCredentialsDto,
+  ): Promise<string> {
+    return await this.authService.signIn(authCredentialsDto);
   }
 }
