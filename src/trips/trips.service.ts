@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { TripStatus } from './trip-status.enum';
 import { Trip } from './trip.entity';

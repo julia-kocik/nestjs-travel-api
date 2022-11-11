@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-task-status.dto';
-import { TripStatus } from './trip-status.enum';
 import { Trip } from './trip.entity';
 import { TripsService } from './trips.service';
 
