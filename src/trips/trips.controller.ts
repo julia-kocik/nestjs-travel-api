@@ -6,13 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-task-status.dto';
 import { Trip } from './trip.entity';
 import { TripsService } from './trips.service';
 
 @Controller('trips')
+@UseGuards(AuthGuard())
 export class TripsController {
   constructor(private tripsService: TripsService) {}
 
