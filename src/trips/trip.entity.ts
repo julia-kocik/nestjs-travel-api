@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { User } from 'src/auth/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TripStatus } from './trip-status.enum';
 
 @Entity()
@@ -23,4 +25,8 @@ export class Trip {
 
   @Column()
   status: TripStatus;
+
+  @ManyToOne((_type) => User, (user) => user.trips, { eager: false })
+  @Exclude({ toPlainOnly: true })
+  user: User;
 }
