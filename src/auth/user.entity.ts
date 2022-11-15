@@ -1,4 +1,4 @@
-import { Trip } from 'src/trips/trip.entity';
+import { Favourite } from 'src/trips/trip.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -12,6 +12,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany((_type) => Trip, (trip) => trip.user, { eager: true })
-  trips: Trip[];
+  @OneToMany((_type) => Favourite, (trip) => trip.user, { eager: true })
+  trips: Favourite[];
 }
