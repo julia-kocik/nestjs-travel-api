@@ -2,18 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/auth/user.entity';
 import { CreateTripDto } from './dto/create-trip.dto';
 import { TripStatus } from './trip-status.enum';
-import { Trip } from './trip.entity';
+import { Favourite } from './trip.entity';
 import { TripRepository } from './trip.repository';
 
 @Injectable()
 export class TripsService {
   constructor(private readonly tripRepository: TripRepository) {}
 
-  async getAllTrips(user: User): Promise<Trip[]> {
+  async getAllTrips(user: User): Promise<Favourite[]> {
     return await this.tripRepository.find({ where: { user } });
   }
 
-  async getTripById(id: string, user: User): Promise<Trip> {
+  async getTripById(id: string, user: User): Promise<Favourite> {
     const found = await this.tripRepository.findOne({
       where: {
         id,
@@ -33,11 +33,15 @@ export class TripsService {
     }
   }
 
-  createTrip(createTripDto: CreateTripDto, user: User): Promise<Trip> {
-    return this.tripRepository.createTrip(createTripDto, user);
+  createTrip(id: string, user: User): Promise<Favourite> {
+    return this.tripRepository.createTrip(id, user);
   }
 
-  async updateTrip(id: string, status: TripStatus, user: User): Promise<Trip> {
+  async updateTrip(
+    id: string,
+    status: TripStatus,
+    user: User,
+  ): Promise<Favourite> {
     const trip = await this.getTripById(id, user);
     trip.status = status;
     await this.tripRepository.save(trip);
