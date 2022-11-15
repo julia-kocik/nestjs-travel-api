@@ -11,23 +11,25 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
-import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-task-status.dto';
-import { Trip } from './trip.entity';
+import { Favourite } from './trip.entity';
 import { TripsService } from './trips.service';
 
-@Controller('trips')
+@Controller('favourites')
 @UseGuards(AuthGuard())
 export class TripsController {
   constructor(private tripsService: TripsService) {}
 
   @Get()
-  getAllTrips(@GetUser() user: User): Promise<Trip[]> {
+  getAllTrips(@GetUser() user: User): Promise<Favourite[]> {
     return this.tripsService.getAllTrips(user);
   }
 
   @Get('/:id')
-  getTripById(@Param('id') id: string, @GetUser() user: User): Promise<Trip> {
+  getTripById(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<Favourite> {
     return this.tripsService.getTripById(id, user);
   }
 
@@ -36,12 +38,12 @@ export class TripsController {
     return this.tripsService.deleteById(id, user);
   }
 
-  @Post()
+  @Post('/:id')
   createTrip(
-    @Body() createTripDto: CreateTripDto,
+    @Param('id') id: string,
     @GetUser() user: User,
-  ): Promise<Trip> {
-    return this.tripsService.createTrip(createTripDto, user);
+  ): Promise<Favourite> {
+    return this.tripsService.createTrip(id, user);
   }
 
   @Patch('/:id/status')
@@ -49,7 +51,7 @@ export class TripsController {
     @Param('id') id: string,
     @Body() updateTripDto: UpdateTripDto,
     @GetUser() user: User,
-  ): Promise<Trip> {
+  ): Promise<Favourite> {
     const { status } = updateTripDto;
     return this.tripsService.updateTrip(id, status, user);
   }
