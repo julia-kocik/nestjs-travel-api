@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TripStatus } from './trip-status.enum';
 
 @Entity()
-export class Trip {
+export class Favourite {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
