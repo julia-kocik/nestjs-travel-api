@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Trip } from 'src/all-trips/all-trips.entity';
 import { AllTripsModule } from 'src/all-trips/all-trips.module';
@@ -10,6 +11,7 @@ import { TripsService } from './trips.service';
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forFeature([Favourite]),
     AuthModule,
     TypeOrmModule.forFeature([Trip]),
