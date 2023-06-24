@@ -1,4 +1,4 @@
-#!/bin/bash
+commands:
+  install_dependencies:
+    command: npm install --omit=dev
 
-cd /var/app/current
-npm install --omit=dev
