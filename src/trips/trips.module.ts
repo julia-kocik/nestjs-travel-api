@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Trip } from 'src/all-trips/all-trips.entity';
-import { AllTripsModule } from 'src/all-trips/all-trips.module';
+import { Trip } from '../all-trips/all-trips.entity';
+import { AllTripsModule } from '../all-trips/all-trips.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { Favourite } from './trip.entity';
-import { TripRepository } from './trip.repository';
+import { FavouriteRepository } from './trip.repository';
 import { TripsController } from './trips.controller';
 import { TripsService } from './trips.service';
+import { AllTripsRepository } from 'src/all-trips/all-trips.repository';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { TripsService } from './trips.service';
     AllTripsModule,
   ],
   controllers: [TripsController],
-  providers: [TripsService, TripRepository],
+  providers: [TripsService, FavouriteRepository, AllTripsRepository],
 })
 export class TripsModule {}

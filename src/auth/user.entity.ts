@@ -1,4 +1,4 @@
-import { Favourite } from 'src/trips/trip.entity';
+import { Favourite } from '../trips/trip.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
