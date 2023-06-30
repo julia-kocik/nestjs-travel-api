@@ -3,9 +3,6 @@ import { User } from 'src/auth/user.entity';
 import { TripStatus } from './trip-status.enum';
 import { Favourite } from './trip.entity';
 import { FavouriteRepository } from './trip.repository';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Trip } from '../all-trips/all-trips.entity';
-import { Repository } from 'typeorm';
 import { AllTripsRepository } from '../all-trips/all-trips.repository';
 
 @Injectable()
