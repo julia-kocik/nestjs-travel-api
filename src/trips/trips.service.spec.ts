@@ -151,4 +151,20 @@ describe('TripsService', () => {
       );
     });
   });
+
+  describe('updateTrip', () => {
+    it('should succesfully updateTrip', async () => {
+      const updatedTrip = { ...mockTrip, status: TripStatus.SOLD };
+      jest
+        .spyOn(service, 'getTripById')
+        .mockImplementation(() => mockTrip as any);
+
+      const result = await service.updateTrip(
+        mockTrip.id,
+        TripStatus.SOLD,
+        mockUser,
+      );
+      expect(result).toEqual(updatedTrip);
+    });
+  });
 });
