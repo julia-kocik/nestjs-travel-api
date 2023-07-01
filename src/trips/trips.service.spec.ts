@@ -14,6 +14,7 @@ const mockFavRepository = {
   create: jest.fn(),
   save: jest.fn(),
   findOne: jest.fn(),
+  delete: jest.fn(),
 };
 
 const mockTripsRepository = {
@@ -121,6 +122,31 @@ describe('TripsService', () => {
       jest.spyOn(repository, 'findOne').mockImplementation(() => undefined);
 
       await expect(service.getTripById(mockTrip.id, mockUser)).rejects.toThrow(
+        new NotFoundException(`Trip with id: ${mockTrip.id} not found`),
+      );
+    });
+  });
+
+  describe('deleteById', () => {
+    it('should succesfully deleteById', async () => {
+      const mockResult = { affected: 1 };
+      jest
+        .spyOn(repository, 'delete')
+        .mockImplementation(() => mockResult as any);
+
+      await expect(
+        service.deleteById(mockTrip.id, mockUser),
+      ).resolves.toBeUndefined();
+    });
+
+    it('throws NotFound exception if no element is found', async () => {
+      const mockResult = { affected: 0 };
+
+      jest
+        .spyOn(repository, 'delete')
+        .mockImplementation(() => mockResult as any);
+
+      await expect(service.deleteById(mockTrip.id, mockUser)).rejects.toThrow(
         new NotFoundException(`Trip with id: ${mockTrip.id} not found`),
       );
     });
