@@ -13,6 +13,7 @@ const mockFavRepository = {
   find: jest.fn(),
   create: jest.fn(),
   save: jest.fn(),
+  findOne: jest.fn(),
 };
 
 const mockTripsRepository = {
@@ -26,18 +27,16 @@ const mockUser: User = {
   trips: [],
 };
 
-const mockAllTripsResponse = [
-  {
-    id: '1befbb09-782a-4924-9e51-98f8ec8069ee',
-    name: 'New York City Trip',
-    description: 'Beautiful memories of city that never sleeps.',
-    destination: 'NYC',
-    price: 40,
-    places: 20,
-    status: 'AVAILABLE',
-    user: mockUser,
-  },
-];
+const mockTrip: Favourite = {
+  id: '123',
+  name: 'Trip 1',
+  description: 'Description 1',
+  destination: 'Destination 1',
+  price: 100,
+  places: 10,
+  status: TripStatus.AVAILABLE,
+  user: mockUser,
+};
 
 describe('TripsService', () => {
   let service: TripsService;
@@ -76,35 +75,24 @@ describe('TripsService', () => {
     it('return seccessfully allTrips', async () => {
       jest
         .spyOn(repository, 'find')
-        .mockImplementation(() => mockAllTripsResponse as any);
+        .mockImplementation(() => [mockTrip] as any);
 
-      expect(await service.getAllTrips(mockUser)).toBe(mockAllTripsResponse);
+      expect(await service.getAllTrips(mockUser)).toStrictEqual([mockTrip]);
     });
   });
 
   describe('createTrip', () => {
     it('should create a new trip and return it', async () => {
-      const userTrip: Favourite = {
-        id: '123',
-        name: 'Trip 1',
-        description: 'Description 1',
-        destination: 'Destination 1',
-        price: 100,
-        places: 10,
-        status: TripStatus.AVAILABLE,
-        user: mockUser,
-      };
-
       jest
         .spyOn(allTripsRepo, 'findOne')
-        .mockImplementation(() => userTrip as any);
+        .mockImplementation(() => mockTrip as any);
       jest
         .spyOn(repository, 'create')
-        .mockImplementation(() => userTrip as any);
-      jest.spyOn(repository, 'save').mockImplementation(() => userTrip as any);
+        .mockImplementation(() => mockTrip as any);
+      jest.spyOn(repository, 'save').mockImplementation(() => mockTrip as any);
 
-      const result = await service.createTrip(userTrip.id, mockUser);
-      expect(result).toEqual(userTrip);
+      const result = await service.createTrip(mockTrip.id, mockUser);
+      expect(result).toEqual(mockTrip);
     });
 
     it('throws NotFound exception if no element is found', async () => {
@@ -113,8 +101,27 @@ describe('TripsService', () => {
       );
       jest.spyOn(allTripsRepo, 'findOne').mockRejectedValue(mockError);
 
-      await expect(service.createTrip('1234', mockUser)).rejects.toThrow(
+      await expect(service.createTrip(mockTrip.id, mockUser)).rejects.toThrow(
         new NotFoundException(`Trip with id 1234 does not exist`),
+      );
+    });
+  });
+
+  describe('getTripById', () => {
+    it('should succesfully getTripById', async () => {
+      jest
+        .spyOn(repository, 'findOne')
+        .mockImplementation(() => mockTrip as any);
+
+      const result = await service.getTripById(mockTrip.id, mockUser);
+      expect(result).toEqual(mockTrip);
+    });
+
+    it('throws NotFound exception if no element is found', async () => {
+      jest.spyOn(repository, 'findOne').mockImplementation(() => undefined);
+
+      await expect(service.getTripById(mockTrip.id, mockUser)).rejects.toThrow(
+        new NotFoundException(`Trip with id: ${mockTrip.id} not found`),
       );
     });
   });
