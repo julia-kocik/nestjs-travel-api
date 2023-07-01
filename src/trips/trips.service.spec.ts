@@ -6,6 +6,7 @@ import { TripStatus } from './trip-status.enum';
 import { AllTripsRepository } from '../all-trips/all-trips.repository';
 import { Favourite } from './trip.entity';
 import { User } from '../auth/user.entity';
+import { NotFoundException } from '@nestjs/common';
 
 const mockFavRepository = {
   getAllTrips: jest.fn(),
@@ -104,6 +105,17 @@ describe('TripsService', () => {
 
       const result = await service.createTrip(userTrip.id, mockUser);
       expect(result).toEqual(userTrip);
+    });
+
+    it('throws NotFound exception if no element is found', async () => {
+      const mockError = new NotFoundException(
+        `Trip with id 1234 does not exist`,
+      );
+      jest.spyOn(allTripsRepo, 'findOne').mockRejectedValue(mockError);
+
+      await expect(service.createTrip('1234', mockUser)).rejects.toThrow(
+        new NotFoundException(`Trip with id 1234 does not exist`),
+      );
     });
   });
 });
