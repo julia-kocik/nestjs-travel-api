@@ -3,9 +3,11 @@ import { TripsController } from './trips.controller';
 import { TripsService } from './trips.service';
 import { PassportModule } from '@nestjs/passport';
 import { User } from 'src/auth/user.entity';
+import { NotFoundException } from '@nestjs/common';
 
 const mockTripsService = {
   getAllTrips: jest.fn(),
+  createTrip: jest.fn(),
 };
 
 const mockTrip = {
@@ -58,6 +60,28 @@ describe('Trips Controller', () => {
       const result = await controller.getAllTrips(mockUser);
       expect(service.getAllTrips).toHaveBeenCalled();
       expect(result).toEqual([mockTrip]);
+    });
+  });
+
+  describe('createTrip', () => {
+    it('should create a new trip and return it', async () => {
+      jest
+        .spyOn(service, 'createTrip')
+        .mockImplementation(() => mockTrip as any);
+
+      const result = await controller.createTrip(mockTrip.id, mockUser);
+      expect(result).toEqual(mockTrip);
+    });
+
+    it('throws NotFound exception if no element is found', async () => {
+      const mockError = new NotFoundException(
+        `Trip with id 1234 does not exist`,
+      );
+      jest.spyOn(service, 'createTrip').mockRejectedValue(mockError);
+
+      await expect(service.createTrip(mockTrip.id, mockUser)).rejects.toThrow(
+        mockError,
+      );
     });
   });
 });
