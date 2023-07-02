@@ -4,12 +4,15 @@ import { TripsService } from './trips.service';
 import { PassportModule } from '@nestjs/passport';
 import { User } from 'src/auth/user.entity';
 import { NotFoundException } from '@nestjs/common';
+import { TripStatus } from './trip-status.enum';
+import { UpdateTripDto } from './dto/update-task-status.dto';
 
 const mockTripsService = {
   getAllTrips: jest.fn(),
   createTrip: jest.fn(),
   getTripById: jest.fn(),
   deleteById: jest.fn(),
+  updateTrip: jest.fn(),
 };
 
 const mockTrip = {
@@ -131,6 +134,25 @@ describe('Trips Controller', () => {
       ).rejects.toThrow(
         new NotFoundException(`Trip with id: ${mockTrip.id} not found`),
       );
+    });
+  });
+
+  describe('updateTrip', () => {
+    it('should succesfully updateTrip', async () => {
+      const updateTripDto: UpdateTripDto = {
+        status: TripStatus.SOLD,
+      };
+      const updatedTrip = { ...mockTrip, status: TripStatus.SOLD };
+      jest
+        .spyOn(service, 'updateTrip')
+        .mockImplementation(() => updatedTrip as any);
+
+      const result = await controller.updateTrip(
+        mockTrip.id,
+        updateTripDto,
+        mockUser,
+      );
+      expect(result).toEqual(updatedTrip);
     });
   });
 });
