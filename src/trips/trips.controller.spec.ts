@@ -9,6 +9,7 @@ const mockTripsService = {
   getAllTrips: jest.fn(),
   createTrip: jest.fn(),
   getTripById: jest.fn(),
+  deleteById: jest.fn(),
 };
 
 const mockTrip = {
@@ -104,6 +105,32 @@ describe('Trips Controller', () => {
       await expect(
         controller.getTripById(mockTrip.id, mockUser),
       ).rejects.toThrow(mockError);
+    });
+  });
+
+  describe('deleteById', () => {
+    it('should successfully deleteById', async () => {
+      const deleteByIdSpy = jest
+        .spyOn(service, 'deleteById')
+        .mockResolvedValue();
+
+      await controller.deleteById(mockTrip.id, mockUser);
+
+      expect(deleteByIdSpy).toHaveBeenCalledWith(mockTrip.id, mockUser);
+    });
+
+    it('throws NotFound exception if no element is found', async () => {
+      const mockError = new NotFoundException(
+        `Trip with id: ${mockTrip.id} not found`,
+      );
+
+      jest.spyOn(service, 'deleteById').mockRejectedValue(mockError);
+
+      await expect(
+        controller.deleteById(mockTrip.id, mockUser),
+      ).rejects.toThrow(
+        new NotFoundException(`Trip with id: ${mockTrip.id} not found`),
+      );
     });
   });
 });
