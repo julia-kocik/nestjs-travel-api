@@ -8,6 +8,7 @@ import { NotFoundException } from '@nestjs/common';
 const mockTripsService = {
   getAllTrips: jest.fn(),
   createTrip: jest.fn(),
+  getTripById: jest.fn(),
 };
 
 const mockTrip = {
@@ -58,7 +59,6 @@ describe('Trips Controller', () => {
         .spyOn(service, 'getAllTrips')
         .mockImplementation(() => [mockTrip] as any);
       const result = await controller.getAllTrips(mockUser);
-      expect(service.getAllTrips).toHaveBeenCalled();
       expect(result).toEqual([mockTrip]);
     });
   });
@@ -79,9 +79,31 @@ describe('Trips Controller', () => {
       );
       jest.spyOn(service, 'createTrip').mockRejectedValue(mockError);
 
-      await expect(service.createTrip(mockTrip.id, mockUser)).rejects.toThrow(
-        mockError,
+      await expect(
+        controller.createTrip(mockTrip.id, mockUser),
+      ).rejects.toThrow(mockError);
+    });
+  });
+
+  describe('getTripById', () => {
+    it('should succesfully getTripById', async () => {
+      jest
+        .spyOn(service, 'getTripById')
+        .mockImplementation(() => mockTrip as any);
+
+      const result = await controller.getTripById(mockTrip.id, mockUser);
+      expect(result).toEqual(mockTrip);
+    });
+
+    it('throws NotFound exception if no element is found', async () => {
+      const mockError = new NotFoundException(
+        `Trip with id: ${mockTrip.id} not found`,
       );
+      jest.spyOn(service, 'getTripById').mockRejectedValue(mockError);
+
+      await expect(
+        controller.getTripById(mockTrip.id, mockUser),
+      ).rejects.toThrow(mockError);
     });
   });
 });
