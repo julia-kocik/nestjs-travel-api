@@ -1,9 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AllTripsController } from './all-trips.controller';
 import { AllTripsService } from './all-trips.service';
+import { Trip } from './all-trips.entity';
+import { TripStatus } from './trip-status.enum';
+import { CreateTripDto } from './dto/create-trip.dto';
 
 const mockAllTripsService = {
   getAllTrips: jest.fn(),
+  createTrip: jest.fn(),
 };
 
 const mockTrip = {
@@ -47,6 +51,34 @@ describe('All Trips Controller', () => {
       const result = await controller.getAllTrips();
       expect(service.getAllTrips).toHaveBeenCalled();
       expect(result).toEqual([mockTrip]);
+    });
+  });
+
+  describe('createTrip', () => {
+    it('should create a new trip and return it', async () => {
+      const createTripDto: CreateTripDto = {
+        name: 'Trip 1',
+        description: 'Description 1',
+        destination: 'Destination 1',
+        price: 100,
+        places: 10,
+      };
+
+      const createdTrip: Trip = {
+        id: '123',
+        name: createTripDto.name,
+        description: createTripDto.description,
+        destination: createTripDto.destination,
+        price: createTripDto.price,
+        places: createTripDto.places,
+        status: TripStatus.AVAILABLE,
+      };
+
+      jest
+        .spyOn(service, 'createTrip')
+        .mockImplementation(() => createdTrip as any);
+      const result = await controller.createTrip(createTripDto);
+      expect(result).toEqual(createdTrip);
     });
   });
 });
