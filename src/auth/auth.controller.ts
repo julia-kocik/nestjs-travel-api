@@ -15,9 +15,9 @@ export class AuthController {
   @Post('/signup')
   async createUser(
     @Body() authCredentialsDto: AuthCredentialsDto,
-  ): Promise<void> {
+  ): Promise<{ accessToken: string }> {
     try {
-      await this.authService.signUp(authCredentialsDto);
+      return await this.authService.signUp(authCredentialsDto);
     } catch (error) {
       if (error.code === '23505') {
         throw new ConflictException('Username already exists');
