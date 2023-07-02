@@ -63,6 +63,7 @@ describe('Trips Controller', () => {
         .spyOn(service, 'getAllTrips')
         .mockImplementation(() => [mockTrip] as any);
       const result = await controller.getAllTrips(mockUser);
+      expect(service.getAllTrips).toHaveBeenCalled();
       expect(result).toEqual([mockTrip]);
     });
   });
@@ -74,6 +75,7 @@ describe('Trips Controller', () => {
         .mockImplementation(() => mockTrip as any);
 
       const result = await controller.createTrip(mockTrip.id, mockUser);
+      expect(service.createTrip).toHaveBeenCalled();
       expect(result).toEqual(mockTrip);
     });
 
@@ -82,6 +84,7 @@ describe('Trips Controller', () => {
         `Trip with id 1234 does not exist`,
       );
       jest.spyOn(service, 'createTrip').mockRejectedValue(mockError);
+      expect(service.createTrip).toHaveBeenCalled();
 
       await expect(
         controller.createTrip(mockTrip.id, mockUser),
@@ -96,6 +99,7 @@ describe('Trips Controller', () => {
         .mockImplementation(() => mockTrip as any);
 
       const result = await controller.getTripById(mockTrip.id, mockUser);
+      expect(service.getTripById).toHaveBeenCalled();
       expect(result).toEqual(mockTrip);
     });
 
@@ -128,7 +132,7 @@ describe('Trips Controller', () => {
       );
 
       jest.spyOn(service, 'deleteById').mockRejectedValue(mockError);
-
+      expect(service.deleteById).toHaveBeenCalled();
       await expect(
         controller.deleteById(mockTrip.id, mockUser),
       ).rejects.toThrow(
@@ -152,7 +156,9 @@ describe('Trips Controller', () => {
         updateTripDto,
         mockUser,
       );
+      expect(service.updateTrip).toHaveBeenCalled();
       expect(result).toEqual(updatedTrip);
+      expect(result.status).toEqual(updatedTrip.status);
     });
   });
 });
