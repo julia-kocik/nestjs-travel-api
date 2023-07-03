@@ -9,6 +9,7 @@ import * as bcrypt from 'bcrypt';
 const mockUserRepository = {
   create: jest.fn(),
   save: jest.fn(),
+  findOne: jest.fn(),
 };
 
 describe('AuthService', () => {
@@ -89,6 +90,38 @@ describe('AuthService', () => {
         username: mockCredentialsDto.username,
       });
 
+      expect(result).toEqual({
+        accessToken: mockToken,
+      });
+    });
+  });
+
+  describe('signin', () => {
+    it('should sign in user, if correct credentials provided', async () => {
+      const mockCredentialsDto = { username: 'user123', password: 'password' };
+      const userFetchedFromDb = { username: 'user123', password: 'password' };
+      const mockToken = '1234567';
+
+      const findOneSpy = jest
+        .spyOn(repository, 'findOne')
+        .mockImplementation(() => userFetchedFromDb as any);
+      const compareSpy = jest
+        .spyOn(bcrypt, 'compare')
+        .mockImplementation(() => true);
+      const jwtSpy = jest
+        .spyOn(jwtService, 'sign')
+        .mockImplementation(() => mockToken as any);
+
+      const result = await service.signIn(mockCredentialsDto);
+
+      expect(findOneSpy).toHaveBeenCalled();
+      expect(compareSpy).toHaveBeenCalledWith(
+        mockCredentialsDto.password,
+        userFetchedFromDb.password,
+      );
+      expect(jwtSpy).toHaveBeenCalledWith({
+        username: mockCredentialsDto.username,
+      });
       expect(result).toEqual({
         accessToken: mockToken,
       });
