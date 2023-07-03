@@ -5,6 +5,7 @@ import { UserRepository } from './user.repository';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { UnauthorizedException } from '@nestjs/common';
 
 const mockUserRepository = {
   create: jest.fn(),
@@ -125,6 +126,19 @@ describe('AuthService', () => {
       expect(result).toEqual({
         accessToken: mockToken,
       });
+    });
+    it('should throw an error if incorrect password provided', async () => {
+      const mockCredentialsDto = { username: 'user123', password: 'password1' };
+      const userFetchedFromDb = { username: 'user123', password: 'password2' };
+
+      jest
+        .spyOn(repository, 'findOne')
+        .mockImplementation(() => userFetchedFromDb as any);
+      jest.spyOn(bcrypt, 'compare').mockImplementation(() => false);
+
+      await expect(service.signIn(mockCredentialsDto)).rejects.toThrow(
+        new UnauthorizedException('Please check your credentials'),
+      );
     });
   });
 });
