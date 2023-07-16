@@ -8,6 +8,7 @@ import {
 
 const mockAuthService = {
   signUp: jest.fn(),
+  signIn: jest.fn(),
 };
 
 describe('Auth Controller', () => {
@@ -66,6 +67,29 @@ describe('Auth Controller', () => {
         .mockImplementation(() => Promise.reject({ code: '' }));
 
       await expect(controller.createUser(mockCredentialsDto)).rejects.toThrow(
+        new InternalServerErrorException(),
+      );
+    });
+  });
+
+  describe('signin', () => {
+    it('should login a new user', async () => {
+      const mockCredentialsDto = { username: 'user123', password: 'password' };
+      const mockToken = '1234567';
+      const serviceSpy = jest
+        .spyOn(service, 'signIn')
+        .mockImplementation(() => ({ accessToken: mockToken } as any));
+      const result = await controller.signIn(mockCredentialsDto);
+      expect(serviceSpy).toHaveBeenCalledWith(mockCredentialsDto);
+      expect(result).toEqual({ accessToken: mockToken });
+    });
+
+    it('should throw InternalServerError if login fails', async () => {
+      const mockCredentialsDto = { username: 'user123', password: 'password' };
+
+      jest.spyOn(service, 'signIn').mockImplementation(() => Promise.reject());
+
+      await expect(controller.signIn(mockCredentialsDto)).rejects.toThrow(
         new InternalServerErrorException(),
       );
     });
