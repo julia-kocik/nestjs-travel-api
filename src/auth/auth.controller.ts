@@ -31,6 +31,10 @@ export class AuthController {
   async signIn(
     @Body() authCredentialsDto: AuthCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    return await this.authService.signIn(authCredentialsDto);
+    try {
+      return await this.authService.signIn(authCredentialsDto);
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 }
