@@ -10,7 +10,7 @@ import { UserRepository } from './user.repository';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly userRepository: UserRepository,
-    private configService: ConfigService,
+    configService: ConfigService,
   ) {
     super({
       secretOrKey: configService.get('JWT_SECRET'),
