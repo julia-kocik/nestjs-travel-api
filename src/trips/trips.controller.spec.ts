@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TripsController } from './trips.controller';
 import { TripsService } from './trips.service';
 import { PassportModule } from '@nestjs/passport';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { NotFoundException } from '@nestjs/common';
 import { TripStatus } from './trip-status.enum';
 import { UpdateTripDto } from './dto/update-task-status.dto';

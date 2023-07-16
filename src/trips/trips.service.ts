@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { TripStatus } from './trip-status.enum';
 import { Favourite } from './trip.entity';
 import { FavouriteRepository } from './trip.repository';

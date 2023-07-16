@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { AllTripsModule } from './all-trips/all-trips.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -37,5 +38,6 @@ import { configValidationSchema } from './config.schema';
     }),
     AllTripsModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

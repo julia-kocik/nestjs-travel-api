@@ -3,12 +3,12 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Trip } from '../all-trips/all-trips.entity';
 import { AllTripsModule } from '../all-trips/all-trips.module';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 import { Favourite } from './trip.entity';
 import { FavouriteRepository } from './trip.repository';
 import { TripsController } from './trips.controller';
 import { TripsService } from './trips.service';
-import { AllTripsRepository } from 'src/all-trips/all-trips.repository';
+import { AllTripsRepository } from '../all-trips/all-trips.repository';
 
 @Module({
   imports: [
