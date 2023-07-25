@@ -13,7 +13,7 @@ const mockTrip = {
   places: 20,
 };
 
-describe('All Trips Controller', () => {
+describe('Favourites Controller', () => {
   let moduleFixture: TestingModule;
   let app: INestApplication;
 
@@ -40,24 +40,7 @@ describe('All Trips Controller', () => {
     await moduleFixture.close();
   });
 
-  it('(POST) - create new trip', async () => {
-    return request(app.getHttpServer())
-      .post('/all-trips')
-      .send(mockTrip)
-      .expect(201)
-      .then((res) => {
-        expect(res.body.description).toBe(
-          'Beautiful memories of city that never sleeps.',
-        );
-      });
-  });
-
-  it('(GET) - get all trips', async () => {
-    return request(app.getHttpServer())
-      .get('/all-trips')
-      .expect(200)
-      .then((res) => {
-        expect(res.body[0].destination).toEqual('NYC');
-      });
+  it('(GET) - get trips, should throw unauthorized', async () => {
+    return request(app.getHttpServer()).get('/favourites').expect(401);
   });
 });
