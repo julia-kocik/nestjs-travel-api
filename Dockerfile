@@ -1,4 +1,5 @@
 FROM node:16-alpine
+EXPOSE 80
 WORKDIR "/app"
 COPY package*.json ./
 RUN npm install
