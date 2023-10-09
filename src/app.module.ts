@@ -21,15 +21,15 @@ import { AppController } from './app.controller';
       useFactory: async (configService: ConfigService) => {
         const isProduction = configService.get('STAGE') === 'prod';
         return {
-          ssl: isProduction ? true : false,
+          ssl: false,
           extra: {
-            ssl: isProduction ? { rejectUnauthorized: false } : null,
+            ssl: null,
           },
           type: 'postgres',
-          url: !isProduction && configService.get('DB_URL'),
+          url: !isProduction && configService.get('DATABASE_URL'),
           autoLoadEntities: true,
           synchronize: true,
-          host: isProduction && configService.get('DB_URL'),
+          host: isProduction && configService.get('DATABASE_URL'),
           username: isProduction && configService.get('POSTGRES_USER'),
           password: isProduction && configService.get('POSTGRES_PASSWORD'),
           database: isProduction && configService.get('POSTGRES_DB'),
