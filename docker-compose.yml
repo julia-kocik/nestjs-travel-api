@@ -1,6 +1,6 @@
 version: "3"
 services:
-  server:
+  api:
     image: "marycode/nestjs-travel-api-api"
     mem_limit: 128m
     hostname: api
@@ -10,6 +10,8 @@ services:
       - POSTGRES_DB=$POSTGRES_DB
       - DATABASE_URL=$DATABASE_URL
   nginx:
+    depends_on:
+      - api
     image: "marycode/nestjs-travel-api-nginx"
     mem_limit: 128m
     hostname: nginx
