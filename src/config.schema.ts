@@ -5,7 +5,6 @@ export const configValidationSchema = Joi.object({
     STAGE: Joi.string(),
     DATABASE_URL: Joi.string(),
     POSTGRES_HOST: Joi.string(),
-    DB_PORT: Joi.number().default(5432),
     POSTGRES_USER: Joi.string(),
     POSTGRES_PASSWORD: Joi.string(),
     POSTGRES_DB: Joi.string(),

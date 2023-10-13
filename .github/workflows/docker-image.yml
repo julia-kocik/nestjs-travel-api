@@ -13,11 +13,9 @@ jobs:
       - run: docker build -t ${{ secrets.DOCKER_USERNAME }}/react-test -f Dockerfile.dev .
       - run: docker run -e CI=true ${{ secrets.DOCKER_USERNAME }}/react-test npm test
 
-      - run: docker build -t ${{ secrets.DOCKER_USERNAME }}/nestjs-travel-api-nginx ./nginx
-      - run: docker build -t ${{ secrets.DOCKER_USERNAME }}/nestjs-travel-api-api .
+      - run: docker build -t ${{ secrets.DOCKER_USERNAME }}/nestjs-travel-api .
 
-      - run: docker push ${{ secrets.DOCKER_USERNAME }}/nestjs-travel-api-nginx
-      - run: docker push ${{ secrets.DOCKER_USERNAME }}/nestjs-travel-api-api
+      - run: docker push ${{ secrets.DOCKER_USERNAME }}/nestjs-travel-api
 
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'

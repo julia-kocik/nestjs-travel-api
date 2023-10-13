@@ -12,6 +12,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor());
   app.setGlobalPrefix('api/v1');
   SwaggerModule.setup('api', app, createDocument(app));
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.PORT || 80);
 }
 bootstrap();

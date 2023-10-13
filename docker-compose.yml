@@ -1,7 +1,7 @@
-version: "3"
+version: '3'
 services:
   api:
-    image: "marycode/nestjs-travel-api-api"
+    image: "marycode/nestjs-travel-api"
     mem_limit: 128m
     hostname: api
     environment:
@@ -11,3 +11,4 @@ services:
       - POSTGRES_HOST=$POSTGRES_HOST
       - PORT=$PORT
       - JWT_SECRET=$JWT_SECRET
+      - STAGE=$STAGE

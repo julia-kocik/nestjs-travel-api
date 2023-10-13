@@ -20,6 +20,7 @@ import { AppController } from './app.controller';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const isProduction = configService.get('STAGE') === 'prod';
+        console.log(isProduction, process.env.PORT)
         return {
           ssl: false,
           extra: {
