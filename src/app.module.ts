@@ -22,9 +22,9 @@ import { AppController } from './app.controller';
         const isProduction = configService.get('STAGE') === 'prod';
         console.log(isProduction, process.env.HOST, configService.get('POSTGRES_HOST'))
         return {
-          ssl: false,
+          ssl: isProduction ? true : false,
           extra: {
-            ssl: null,
+            ssl: isProduction ? { rejectUnauthorized: false } : null,
           },
           type: 'postgres',
           url: !isProduction && configService.get('DATABASE_URL'),
