@@ -1,6 +1,9 @@
 version: '3'
 services:
   api:
+    build:
+      dockerfile: Dockerfile
+      context: .
     image: "marycode/nestjs-travel-api"
     environment:
       - POSTGRES_USER=$POSTGRES_USER
@@ -10,3 +13,5 @@ services:
       - PORT=$PORT
       - JWT_SECRET=$JWT_SECRET
       - STAGE=$STAGE
+    ports:
+      - "80:80"
