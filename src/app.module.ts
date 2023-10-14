@@ -27,6 +27,7 @@ import { AppController } from './app.controller';
           },
           type: 'postgres',
           url: !isProduction && configService.get('DATABASE_URL'),
+          port: configService.get('POSTGRES_PORT'),
           host: configService.get('POSTGRES_HOST'),
           autoLoadEntities: true,
           synchronize: true,

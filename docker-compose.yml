@@ -13,5 +13,6 @@ services:
       - PORT=$PORT
       - JWT_SECRET=$JWT_SECRET
       - STAGE=$STAGE
+      - POSTGRES_PORT=$POSTGRES_PORT
     ports:
       - "80:80"
