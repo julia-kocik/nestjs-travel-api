@@ -2,7 +2,7 @@
 FROM node:18
 EXPOSE 80
 # Create app directory
-WORKDIR /usr/app
+WORKDIR  /app
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
