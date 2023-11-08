@@ -14,9 +14,11 @@ import { User } from '../auth/user.entity';
 import { UpdateTripDto } from './dto/update-task-status.dto';
 import { Favourite } from './trip.entity';
 import { TripsService } from './trips.service';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('favourites')
 @UseGuards(AuthGuard())
+@ApiBearerAuth('accessToken')
 export class TripsController {
   constructor(private tripsService: TripsService) {}
 

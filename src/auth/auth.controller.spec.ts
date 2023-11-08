@@ -2,8 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import {
-  ConflictException,
-  InternalServerErrorException,
+  ConflictException, UnauthorizedException,
 } from '@nestjs/common';
 
 const mockAuthService = {
@@ -59,7 +58,7 @@ describe('Auth Controller', () => {
       );
     });
 
-    it('should throw InternalServerError if error code is NOT 23505', async () => {
+    it('should throw Unauthorize Exception if error code is NOT 23505', async () => {
       const mockCredentialsDto = { username: 'user123', password: 'password' };
 
       jest
@@ -67,7 +66,7 @@ describe('Auth Controller', () => {
         .mockImplementation(() => Promise.reject({ code: '' }));
 
       await expect(controller.createUser(mockCredentialsDto)).rejects.toThrow(
-        new InternalServerErrorException(),
+        new UnauthorizedException('Your registration failed, please try again'),
       );
     });
   });
@@ -84,13 +83,13 @@ describe('Auth Controller', () => {
       expect(result).toEqual({ accessToken: mockToken });
     });
 
-    it('should throw InternalServerError if login fails', async () => {
+    it('should throw UnAuthorized if login fails', async () => {
       const mockCredentialsDto = { username: 'user123', password: 'password' };
 
       jest.spyOn(service, 'signIn').mockImplementation(() => Promise.reject());
 
       await expect(controller.signIn(mockCredentialsDto)).rejects.toThrow(
-        new InternalServerErrorException(),
+        new  UnauthorizedException('You have provided incorrect credentials')        ,
       );
     });
   });
